@@ -8,7 +8,6 @@ class Comments {
       const user = req.user;
       const comment = await commentsModule.create({
         userId: user.id,
-        gameId: req.params.id,
         comment: req.body.comment,
       });
       res.status(201).json(comment);

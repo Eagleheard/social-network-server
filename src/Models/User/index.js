@@ -1,6 +1,8 @@
 import { DataTypes } from 'sequelize';
 import { database } from '@config/database.js';
 
+import { Comment } from '@models/Comments/index';
+
 const User = database.define('user', {
   id: {
     type: DataTypes.INTEGER,
@@ -31,5 +33,7 @@ const User = database.define('user', {
     type: DataTypes.BOOLEAN,
   },
 });
+
+User.hasMany(Comment, { onDelete: 'restrict' });
 
 export default User;

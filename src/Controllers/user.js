@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 import userModule from '@models/User/user.js';
+
 import appError from '@errors/appError.js';
 
 const createJwt = (id, email, role, name, lastName) => {
