@@ -1,0 +1,40 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cloudinary": "^1.28.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "module-alias": "^2.2.2",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.16.2",
+    "socket.io": "^4.4.1"
+  },
+  "name": "soc-network",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node -r esm -r module-alias/register index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "prettier": "2.5.1"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@controllers": "src/Controllers",
+    "@errors": "src/Errors",
+    "@models": "src/Models",
+    "@routes": "src/Routes",
+    "@middleware": "src/Middleware",
+    "@config": "src/Config"
+  }
+}
