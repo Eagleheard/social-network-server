@@ -7,7 +7,7 @@ import friends from './friends.js';
 const router = new express.Router();
 
 router.use('/user', user);
-router.use('/comments', comments);
+router.use('/posts', comments);
 router.use('/friends', friends);
 
 export default router;
