@@ -7,6 +7,6 @@ export const Friendship = database.define('Friendship', {
     primaryKey: true,
     autoIncrement: true,
   },
-  follower_user_id: DataTypes.INTEGER,
-  followed_user_id: DataTypes.INTEGER,
+  followerUserId: DataTypes.INTEGER,
+  followedUserId: DataTypes.INTEGER,
 });
