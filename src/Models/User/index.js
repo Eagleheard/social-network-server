@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 import { database } from '@config/database.js';
 
 import { Comment } from '@models/Comments/index';
+import { Friendship } from '@models/Friends/index';
 
 const User = database.define('user', {
   id: {
@@ -35,5 +36,19 @@ const User = database.define('user', {
 });
 
 User.hasMany(Comment, { onDelete: 'restrict' });
+
+User.belongsToMany(User, {
+  as: 'Following',
+  through: Friendship,
+  foreignKey: 'follower_user_id',
+  onDelete: 'CASCADE',
+});
+
+User.belongsToMany(User, {
+  as: 'Followed',
+  through: Friendship,
+  foreignKey: 'followed_user_id',
+  onDelete: 'CASCADE',
+});
 
 export default User;
