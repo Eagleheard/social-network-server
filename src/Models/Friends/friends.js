@@ -7,7 +7,7 @@ class Friends {
   async delete(id) {
     const friendship = await friendsModule.findOne({
       where: {
-        followedUserId: id,
+        followed: id,
       },
     });
     await friendship.destroy();
@@ -16,8 +16,16 @@ class Friends {
   getOne(id) {
     return friendsModule.findOne({
       where: {
-        followedUserId: id,
+        followed: id,
       },
+    });
+  }
+  getAllFriends(id) {
+    return friendsModule.findAll({
+      where: {
+        follower: id,
+      },
+      attributes: { exclude: ['id', 'follower'] },
     });
   }
 }

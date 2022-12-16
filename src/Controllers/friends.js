@@ -7,8 +7,8 @@ class Friends {
     try {
       const user = req.user;
       const comment = await friendsModule.create({
-        followerUserId: user.id,
-        followedUserId: req.params.id,
+        follower: user.id,
+        followed: req.params.id,
       });
       res.status(201).json(comment);
     } catch (e) {

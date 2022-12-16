@@ -1,25 +1,27 @@
 import { Comment as commentsModule } from '@models/Comments/index.js';
-import userModule from '@models/User/index.js';
+import { Op } from 'sequelize';
 
 class Comments {
-  getAll({ gameId, dataLimit, currentPage }) {
+  getAll({ id, dataLimit, currentPage }) {
     const offset = (currentPage - 1) * dataLimit;
     return commentsModule.findAndCountAll({
       limit: dataLimit,
       offset,
       order: [['id', 'DESC']],
       where: {
-        gameId,
-      },
-      include: [
-        {
-          model: userModule,
-          attributes: ['id', 'name', 'photo', 'lastName'],
+        userId: {
+          [Op.in]: id.map((user) => user.followed),
         },
-      ],
+      },
     });
   }
-
+  getOne(id) {
+    return commentsModule.findOne({
+      where: {
+        userId: id,
+      },
+    });
+  }
   create(data) {
     return commentsModule.create({ ...data });
   }

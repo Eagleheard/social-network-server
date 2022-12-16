@@ -1,6 +1,7 @@
 import appError from '@errors/appError.js';
 
 import commentsModule from '@models/Comments/comments.js';
+import friendsModule from '@models/Friends/friends.js';
 
 class Comments {
   async create(req, res, next) {
@@ -10,18 +11,28 @@ class Comments {
         userId: user.id,
         comment: req.body.comment,
       });
+      /*
+      var reg = /\B(@[a-z0-9]+)(\s|$)/gi;
+      var res = tests.map((f) => f.match(reg));
+      */
       res.status(201).json(comment);
     } catch (e) {
       next(appError.internalServerError(e.message));
     }
   }
 
-  async getAllByGame({ params, query: { limit, page } }, res, next) {
+  async getAllByFriends({ user, query: { limit, page } }, res, next) {
     try {
       const dataLimit = limit && /[0-9]+/.test(limit) && parseInt(limit) ? parseInt(limit) : null;
       const currentPage = page && /[0-9]+/.test(page) && parseInt(page) ? parseInt(page) : 1;
-      const comments = await commentsModule.getAll({ gameId: params.id, dataLimit, currentPage });
-      res.status(200).json(comments);
+      const subscribedUsers = await friendsModule.getAllFriends(user.id);
+      const subscribedUsersPost = await commentsModule.getAll({
+        id: [...subscribedUsers, { followed: user.id }],
+        dataLimit,
+        currentPage,
+      });
+      //const comments = await commentsModule.getAll({ gameId: params.id, dataLimit, currentPage });
+      res.status(200).json(subscribedUsersPost);
     } catch (e) {
       next(appError.internalServerError(e.message));
     }
