@@ -11,7 +11,6 @@ class Comments {
       const reg = /\B(#[a-z0-9]+)(\s|$)/gi;
       const tag = req.body.comment.match(reg);
       const newTag = await tagsModule.create(tag.join(''));
-      console.log(newTag.map((tag) => tag.id));
       const comment = await commentsModule.create({
         userId: user.id,
         comment: req.body.comment,
