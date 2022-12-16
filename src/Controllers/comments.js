@@ -2,19 +2,21 @@ import appError from '@errors/appError.js';
 
 import commentsModule from '@models/Comments/comments.js';
 import friendsModule from '@models/Friends/friends.js';
+import tagsModule from '@models/Tags/tags.js';
 
 class Comments {
   async create(req, res, next) {
     try {
       const user = req.user;
+      const reg = /\B(#[a-z0-9]+)(\s|$)/gi;
+      const tag = req.body.comment.match(reg);
+      const newTag = await tagsModule.create(tag.join(''));
+      console.log(newTag.map((tag) => tag.id));
       const comment = await commentsModule.create({
         userId: user.id,
         comment: req.body.comment,
+        tagId: newTag.map((tag) => tag.id),
       });
-      /*
-      var reg = /\B(@[a-z0-9]+)(\s|$)/gi;
-      var res = tests.map((f) => f.match(reg));
-      */
       res.status(201).json(comment);
     } catch (e) {
       next(appError.internalServerError(e.message));
