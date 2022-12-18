@@ -40,14 +40,14 @@ User.hasMany(Comment, { onDelete: 'restrict' });
 User.belongsToMany(User, {
   as: 'Following',
   through: Friendship,
-  foreignKey: 'follower_user_id',
+  foreignKey: 'follower',
   onDelete: 'CASCADE',
 });
 
 User.belongsToMany(User, {
   as: 'Followed',
   through: Friendship,
-  foreignKey: 'followed_user_id',
+  foreignKey: 'followed',
   onDelete: 'CASCADE',
 });
 

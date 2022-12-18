@@ -5,7 +5,7 @@ import commentController from '@controllers/comments.js';
 
 const router = new express.Router();
 
-router.get('/:id([0-9]+)', authMiddleware, commentController.getAllByGame);
+router.get('/', authMiddleware, commentController.getAllByFriends);
 router.post('/', authMiddleware, commentController.create);
 
 export default router;
