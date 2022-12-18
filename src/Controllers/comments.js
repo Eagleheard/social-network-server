@@ -10,11 +10,14 @@ class Comments {
       const user = req.user;
       const reg = /\B(#[a-z0-9]+)(\s|$)/gi;
       const tag = req.body.comment.match(reg);
-      const newTag = await tagsModule.create(tag.join(''));
+      let [newTag, isCreated] = [null];
+      if (tag) {
+        [newTag, isCreated] = await tagsModule.create(tag.join(''));
+      }
       const comment = await commentsModule.create({
         userId: user.id,
         comment: req.body.comment,
-        tagId: newTag.map((tag) => tag.id),
+        tagId: newTag ? newTag.id : null,
       });
       res.status(201).json(comment);
     } catch (e) {
