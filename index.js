@@ -41,7 +41,6 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/api', router);
-app.use(cookieParser());
 app.use(ErrorHandler);
 
 const start = async () => {
