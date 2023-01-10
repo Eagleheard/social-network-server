@@ -1,5 +1,7 @@
-import { Comment as commentsModule } from '@models/Comments/index.js';
 import { Op } from 'sequelize';
+
+import { Comment as commentsModule } from '@models/Comments/index.js';
+import userModule from '@models/User/index.js';
 
 class Comments {
   getAll({ id, dataLimit, currentPage }) {
@@ -13,6 +15,7 @@ class Comments {
           [Op.in]: id.map((user) => user.followed),
         },
       },
+      include: [{ model: userModule, as: 'user' }],
     });
   }
   getOne(id) {

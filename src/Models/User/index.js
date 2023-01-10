@@ -36,6 +36,7 @@ const User = database.define('user', {
 });
 
 User.hasMany(Comment, { onDelete: 'restrict' });
+Comment.belongsTo(User);
 
 User.belongsToMany(User, {
   as: 'Following',

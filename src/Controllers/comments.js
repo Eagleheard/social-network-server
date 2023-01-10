@@ -14,6 +14,7 @@ class Comments {
       if (tag) {
         [newTag, isCreated] = await tagsModule.create(tag.join(''));
       }
+      console.log(newTag);
       const comment = await commentsModule.create({
         userId: user.id,
         comment: req.body.comment,
@@ -35,7 +36,6 @@ class Comments {
         dataLimit,
         currentPage,
       });
-      //const comments = await commentsModule.getAll({ gameId: params.id, dataLimit, currentPage });
       res.status(200).json(subscribedUsersPost);
     } catch (e) {
       next(appError.internalServerError(e.message));
