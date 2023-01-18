@@ -5,8 +5,8 @@ import userModule from '@models/User/user.js';
 
 import appError from '@errors/appError.js';
 
-const createJwt = (id, email, role, name, lastName) => {
-  return jwt.sign({ id, email, role, name, lastName }, process.env.SECRET_KEY, {
+const createJwt = (id, email, role, name, lastName, photo) => {
+  return jwt.sign({ id, email, role, name, lastName, photo }, process.env.SECRET_KEY, {
     expiresIn: '24h',
   });
 };
@@ -42,20 +42,20 @@ class User {
       if (user.blocked) {
         next(appError.forbidden('Your account is blocked'));
       }
-      const token = createJwt(user.id, user.email, user.role, user.name, user.lastName);
+      const token = createJwt(user.id, user.email, user.role, user.name, user.lastName, user.photo);
       return res
         .status(200)
         .cookie('access_token', token, {
           httpOnly: true,
         })
-        .json({ id: user.id, name: user.name, role: user.role });
+        .json({ id: user.id, name: user.name, role: user.role, photo: user.photo });
     } catch (e) {
       next(appError.internalServerError(e.message));
     }
   }
 
   async logout(req, res) {
-    return res.status(200).cookie('access_token', 'none').json({ message: 'deleted' });
+    return res.status(200).clearCookie('access_token').json({ message: 'deleted' });
   }
 
   async check(req, res) {
@@ -63,6 +63,9 @@ class User {
       id: req.user.id,
       role: req.user.role,
       name: req.user.name,
+      photo: req.user.photo,
+      lastName: req.user.lastName,
+      email: req.user.email,
     });
   }
 
