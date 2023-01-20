@@ -28,6 +28,15 @@ class Friends {
       attributes: { exclude: ['id', 'follower'] },
     });
   }
+
+  getAllFollowers(id) {
+    return friendsModule.findAll({
+      where: {
+        followed: id,
+      },
+      attributes: { exclude: ['id', 'followed'] },
+    });
+  }
 }
 
 export default new Friends();

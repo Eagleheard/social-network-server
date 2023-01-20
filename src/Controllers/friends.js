@@ -30,6 +30,24 @@ class Friends {
       next(appError.internalServerError(e.message));
     }
   }
+
+  async getAllFollowers(req, res, next) {
+    try {
+      const followers = await friendsModule.getAllFriends(req.user.id);
+      return res.status(200).json(followers);
+    } catch (e) {
+      next(appError.internalServerError(e.message));
+    }
+  }
+
+  async getAllFolloweds(req, res, next) {
+    try {
+      const followeds = await friendsModule.getAllFollowers(req.user.id);
+      return res.status(200).json(followeds);
+    } catch (e) {
+      next(appError.internalServerError(e.message));
+    }
+  }
 }
 
 export default new Friends();
