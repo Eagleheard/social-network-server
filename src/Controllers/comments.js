@@ -14,7 +14,6 @@ class Comments {
       if (tag) {
         [newTag, isCreated] = await tagsModule.create(tag.join(''));
       }
-      console.log(newTag);
       const comment = await commentsModule.create({
         userId: user.id,
         comment: req.body.comment,
@@ -37,6 +36,21 @@ class Comments {
         currentPage,
       });
       res.status(200).json(subscribedUsersPost);
+    } catch (e) {
+      next(appError.internalServerError(e.message));
+    }
+  }
+
+  async getAllByUser({ params, query: { limit, page, id } }, res, next) {
+    try {
+      const dataLimit = limit && /[0-9]+/.test(limit) && parseInt(limit) ? parseInt(limit) : null;
+      const currentPage = page && /[0-9]+/.test(page) && parseInt(page) ? parseInt(page) : 1;
+      const userPosts = await commentsModule.getAllByUser({
+        id: params.id,
+        dataLimit,
+        currentPage,
+      });
+      return res.status(200).json(userPosts);
     } catch (e) {
       next(appError.internalServerError(e.message));
     }

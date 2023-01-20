@@ -28,6 +28,18 @@ class Comments {
   create(data) {
     return commentsModule.create({ ...data });
   }
+  getAllByUser({ id, dataLimit, currentPage }) {
+    const offset = (currentPage - 1) * dataLimit;
+    return commentsModule.findAndCountAll({
+      limit: dataLimit,
+      offset,
+      order: [['id', 'DESC']],
+      where: {
+        userId: id,
+      },
+      include: [{ model: userModule, as: 'user' }],
+    });
+  }
 }
 
 export default new Comments();
