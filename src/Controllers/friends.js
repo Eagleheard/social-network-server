@@ -1,6 +1,7 @@
 import appError from '@errors/appError.js';
 
 import friendsModule from '@models/Friends/friends.js';
+import userModule from '@models/User/user.js';
 
 class Friends {
   async create(req, res, next) {
@@ -34,7 +35,8 @@ class Friends {
   async getAllFollowers(req, res, next) {
     try {
       const followers = await friendsModule.getAllFriends(req.user.id);
-      return res.status(200).json(followers);
+      const users = await Promise.all(followers.map((user) => userModule.getById(user.followed)));
+      return res.status(200).json(users);
     } catch (e) {
       next(appError.internalServerError(e.message));
     }
@@ -43,7 +45,8 @@ class Friends {
   async getAllFolloweds(req, res, next) {
     try {
       const followeds = await friendsModule.getAllFollowers(req.user.id);
-      return res.status(200).json(followeds);
+      const users = await Promise.all(followeds.map((user) => userModule.getById(user.follower)));
+      return res.status(200).json(users);
     } catch (e) {
       next(appError.internalServerError(e.message));
     }
